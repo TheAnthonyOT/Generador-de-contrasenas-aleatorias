@@ -13,17 +13,18 @@ MenudeGeneracion();
 }
 
 void MenudeGeneracion(){
+    char respuesta;
     bool generarOtra = true;
 
     while (generarOtra) {
-        // Solicitar la longitud de la contraseÒa al usuario
+        // Solicitar la longitud de la contrase√±a al usuario
         int longitud;
 
         do {
             cout << "Ingrese la longitud de la contrasena (maximo 15 caracteres): ";
             cin >> longitud;
 
-            // Verificar que la longitud sea v·lida
+            // Verificar que la longitud sea v√°lida
             if (longitud <= 0 || longitud > 15) {
                 cout << "La longitud de la contrasena debe ser mayor que 0 y no debe exceder los 15 caracteres." << endl;
             }
@@ -31,38 +32,71 @@ void MenudeGeneracion(){
         } while (longitud <= 0 || longitud > 15);
 
         // Permitir al usuario elegir los tipos de caracteres
-        bool incluirMayusculas, incluirMinusculas, incluirSimbolos;
+        char incluirMayusculas, incluirMinusculas, incluirSimbolos;
 
-        cout << "øIncluir mayusculas? (1: Si, 0: No): ";
-        cin >> incluirMayusculas;
+        do {
+            cout << "¬øIncluir mayusculas? (S/N): ";
+            cin >> incluirMayusculas;
 
-        cout << "øIncluir minusculas? (1: Si, 0: No): ";
-        cin >> incluirMinusculas;
+            // Verificar si la respuesta es v√°lida
+            if (incluirMayusculas != 'S' && incluirMayusculas != 's' && incluirMayusculas != 'N' && incluirMayusculas != 'n') {
+                cout << "Por favor, ingrese una opcion valida (S/N)." << endl;
+            }
+        } while (incluirMayusculas != 'S' && incluirMayusculas != 's' && incluirMayusculas != 'N' && incluirMayusculas != 'n');
 
-        cout << "øIncluir simbolos? (1: Si, 0: No): ";
-        cin >> incluirSimbolos;
+        do {
+            cout << "¬øIncluir minusculas? (S/N): ";
+            cin >> incluirMinusculas;
 
-        // Llamar a la funciÛn para generar la contraseÒa
-        generarContrasena(longitud, incluirMayusculas, incluirMinusculas, incluirSimbolos);
+            // Verificar si la respuesta es v√°lida
+            if (incluirMinusculas != 'S' && incluirMinusculas != 's' && incluirMinusculas != 'N' && incluirMinusculas != 'n') {
+                cout << "Por favor, ingrese una opcion valida (S/N)." << endl;
+            }
+        } while (incluirMinusculas != 'S' && incluirMinusculas != 's' && incluirMinusculas != 'N' && incluirMinusculas != 'n');
 
-        // Preguntar al usuario si desea generar otra contraseÒa
-        char respuesta;
-        cout << "øGenerar otra contrasena? (S/N): ";
-        cin >> respuesta;
+        do {
+            cout << "¬øIncluir simbolos? (S/N): ";
+            cin >> incluirSimbolos;
+
+            // Verificar si la respuesta es v√°lida
+            if (incluirSimbolos != 'S' && incluirSimbolos != 's' && incluirSimbolos != 'N' && incluirSimbolos != 'n') {
+                cout << "Por favor, ingrese una opcion valida (S/N)." << endl;
+            }
+        } while (incluirSimbolos != 'S' && incluirSimbolos != 's' && incluirSimbolos != 'N' && incluirSimbolos != 'n');
+
+        // Llamar a la funci√≥n para generar la contrase√±a
+        generarContrasena(longitud, (incluirMayusculas == 'S' || incluirMayusculas == 's'),
+                                   (incluirMinusculas == 'S' || incluirMinusculas == 's'),
+                                   (incluirSimbolos == 'S' || incluirSimbolos == 's'));
+
+        // Preguntar al usuario si desea generar otra contrase√±a
+        do {
+            cout << "¬øGenerar otra contrasena? (S/N): ";
+            cin >> respuesta;
+
+            // Verificar si la respuesta es v√°lida
+            if (respuesta != 'S' && respuesta != 's' && respuesta != 'N' && respuesta != 'n') {
+                cout << "Por favor, ingrese una opcion valida (S/N)." << endl;
+            }
+        } while (respuesta != 'S' && respuesta != 's' && respuesta != 'N' && respuesta != 'n');
 
         generarOtra = (respuesta == 'S' || respuesta == 's');
     }
 
-    cout << "°Gracias por usar el generador de contrasenas!" << endl;
-}
-// DefiniciÛn de la funciÛn para generar la contraseÒa
+    cout << "¬°Gracias por usar el generador de contrasenas!" << endl;
+    }
+
+
+
+
+// Definici√≥n de la funci√≥n para generar la contrase√±a
 void generarContrasena(int longitud, bool incluirMayusculas, bool incluirMinusculas, bool incluirSimbolos) {
     string mayusculas = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     string minusculas = "abcdefghijklmnopqrstuvwxyz";
     string simbolos = "!@#$%^&*()_-+=<>?";
     string caracteresPermitidos;
 
-    // Construir la cadena de caracteres permitidos seg˙n las preferencias del usuario
+    // Construir la cadena de caracteres permitidos seg√∫n las preferencias del usuario
     if (incluirMayusculas) {
         caracteresPermitidos += mayusculas;
     }
@@ -81,16 +115,16 @@ void generarContrasena(int longitud, bool incluirMayusculas, bool incluirMinuscu
 
     const int numCaracteres = caracteresPermitidos.length();
 
-    // Inicializar la semilla para la generaciÛn de n˙meros aleatorios
+    // Inicializar la semilla para la generaci√≥n de n√∫meros aleatorios
     srand(static_cast<unsigned int>(time(0)));
 
-    // Generar la contraseÒa
+    // Generar la contrase√±a
     string contrasena;
     for (int i = 0; i < longitud; ++i) {
         int indice = rand() % numCaracteres;
         contrasena.push_back(caracteresPermitidos[indice]);
     }
 
-    // Mostrar la contraseÒa generada
+    // Mostrar la contrase√±a generada
     cout << "Contrasena generada: " << contrasena << endl;
 }
